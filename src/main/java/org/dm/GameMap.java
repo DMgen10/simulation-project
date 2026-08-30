@@ -18,4 +18,8 @@ public class GameMap {
         this.lengthX = lengthX;
         this.heightY = heightY;
     }
+
+    public void add(Position position, Entity entity){
+        entities.put(position, entity);
+    }
 }
