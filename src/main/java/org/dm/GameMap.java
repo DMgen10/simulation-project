@@ -26,4 +26,8 @@ public class GameMap {
     public void remove(Position position){
         entities.remove(position);
     }
+
+    public boolean isPositionIsBusy(Position position){
+        return entities.containsKey(position);
+    }
 }
