@@ -6,4 +6,16 @@ import java.util.Map;
 public class GameMap {
 
     private Map<Position, Entity> entities;
+    private int lengthX;
+    private int heightY;
+
+    public GameMap(int lengthX, int heightY) {
+
+        if (lengthX <= 0 || heightY <= 0){
+            throw new IllegalArgumentException("the value of the height or length cannot be less than or equal to zero");
+        }
+
+        this.lengthX = lengthX;
+        this.heightY = heightY;
+    }
 }
