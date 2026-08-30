@@ -23,6 +23,14 @@ public class GameMap {
         entities.put(position, entity);
     }
 
+    public int getLengthX() {
+        return lengthX;
+    }
+
+    public int getHeightY() {
+        return heightY;
+    }
+
     public void remove(Position position){
         entities.remove(position);
     }
