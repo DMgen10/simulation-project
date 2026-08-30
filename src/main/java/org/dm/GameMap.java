@@ -1,6 +1,7 @@
 package org.dm;
 
 import org.dm.entities.Entity;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GameMap {
