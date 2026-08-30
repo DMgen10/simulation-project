@@ -38,4 +38,10 @@ public class GameMap {
     public boolean isPositionIsBusy(Position position){
         return entities.containsKey(position);
     }
+
+    public boolean isOutOfBounds(Position position){
+        return position.x() > getLengthX() || position.y() > getHeightY();
+    }
+
+
 }
