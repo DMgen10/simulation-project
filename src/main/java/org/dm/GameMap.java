@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class GameMap {
 
-    private Map<Position, Entity> entities;
-    private int lengthX;
-    private int heightY;
+    private final Map<Position, Entity> entities;
+    private final int lengthX;
+    private final int heightY;
 
     public GameMap(int lengthX, int heightY) {
 
