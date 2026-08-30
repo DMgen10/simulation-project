@@ -22,4 +22,8 @@ public class GameMap {
     public void add(Position position, Entity entity){
         entities.put(position, entity);
     }
+
+    public void remove(Position position){
+        entities.remove(position);
+    }
 }
