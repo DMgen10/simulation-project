@@ -23,7 +23,9 @@ public class GameMap {
     }
 
     public void add(Position position, Entity entity){
-        entities.put(position, entity);
+        if (isPositionBusy(position)){
+            entities.put(position, entity);
+        }
     }
 
     public int getLengthX() {
