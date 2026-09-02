@@ -43,7 +43,7 @@ public class GameMap {
     }
 
     public boolean isOutOfBounds(Position position){
-        return position.x() > getLengthX() || position.y() > getHeightY();
+        return position.x() > getLengthX() || position.y() > getHeightY() || position.x() < 0 || position.y() < 0;
     }
 
 
