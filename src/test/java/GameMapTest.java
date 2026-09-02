@@ -1,40 +1,46 @@
 import org.dm.GameMap;
 import org.dm.Position;
+import org.dm.entities.Entity;
 import org.dm.entities.Predator;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class GameMapTest {
-    private Position position;
-    private GameMap gameMap;
-    @Before
-    public void createPosition(){
-        position = new Position(10,10);
-    }
 
-    @Before
-    public void crateGameMap(){
-        gameMap = new GameMap(11,11);
-    }
-
+    public GameMap map = new GameMap(10,10);
+    public Position position = new Position(5,5);
+    public Entity entity = new Predator();
 
     @Test
-    public void isPositionIsBusyTest(){
-        createPosition();
-        crateGameMap();
-        position = getPosition();
-        gameMap = getGameMap();
-        gameMap.add(new Position(10,10), new Predator());
-        Assert.assertTrue(gameMap.isPositionIsBusy(position));
-
+    public void addTest(){
+        map.add(position,entity);
+        Assert.assertFalse(map.isPositionBusy(position));
     }
 
-    public Position getPosition() {
-        return position;
+    @Test
+    public void getEntityTest(){
+        map.add(position,entity);
+        Assert.assertEquals(map.getEntity(position),map.getEntity(position));
     }
 
-    public GameMap getGameMap() {
-        return gameMap;
+    @Test
+    public void removeTest(){
+        map.add(position,entity);
+        map.remove(position);
+        Assert.assertFalse(map.isPositionBusy(position));
     }
-}
+
+    @Test
+    public void isPositionBusyTest(){
+        map.add(position,entity);
+        map.remove(position);
+        Assert.assertFalse(map.isPositionBusy(position));
+    }
+
+    @Test
+    public void isOutOfBoundsTest(){
+        Position freakPosition = new Position(11,11);
+        Assert.assertTrue(map.isOutOfBounds(freakPosition));
+    }
+
+   }
