@@ -38,7 +38,7 @@ public class GameMap {
         entities.remove(position);
     }
 
-    public boolean isPositionIsBusy(Position position){
+    public boolean isPositionBusy(Position position){
         return entities.containsKey(position);
     }
 
