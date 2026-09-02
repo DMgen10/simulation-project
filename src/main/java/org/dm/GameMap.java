@@ -18,7 +18,7 @@ public class GameMap {
 
         this.lengthX = lengthX;
         this.heightY = heightY;
-        entities = new HashMap<>(lengthX, heightY);
+        entities = new HashMap<>(lengthX * heightY);
         // возможно позже стот добавить проверку на сверх-большие значения высоты и длины - нужно подобрать оптимальыне.
     }
 
