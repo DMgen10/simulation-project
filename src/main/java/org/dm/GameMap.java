@@ -34,6 +34,10 @@ public class GameMap {
         return heightY;
     }
 
+    public Entity getEntity(Position position){
+        return entities.get(position);
+    }
+
     public void remove(Position position){
         entities.remove(position);
     }
