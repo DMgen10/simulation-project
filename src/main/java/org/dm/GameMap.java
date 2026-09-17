@@ -40,6 +40,18 @@ public class GameMap {
         return entities.get(position);
     }
 
+    public Position getRandomPosition(){
+
+        while(true){
+            int x = random.nextInt(getLengthX());
+            int y = random.nextInt(getHeightY());
+            Position position = new Position(x,y);
+            if (!isPositionBusy(position) && !isOutOfBounds(position)){
+                return position;
+            }
+        }
+    }
+
     public void remove(Position position){
         entities.remove(position);
     }
