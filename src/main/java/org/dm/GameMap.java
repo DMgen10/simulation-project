@@ -64,5 +64,7 @@ public class GameMap {
         return position.x() > getLengthX() || position.y() > getHeightY() || position.x() < 0 || position.y() < 0;
     }
 
-
+    public boolean isAllPositionsAreFilled(){
+        return entities.size() >= lengthX * heightY;
+    }
 }
