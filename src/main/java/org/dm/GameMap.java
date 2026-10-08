@@ -11,7 +11,7 @@ public class GameMap {
     private final Map<Position, Entity> entities;
     private final int lengthX;
     private final int heightY;
-
+    private static final Random random = new Random();
     public GameMap(int lengthX, int heightY) {
 
         if (lengthX <= 0 || heightY <= 0){
