@@ -4,6 +4,7 @@ import org.dm.core.Position;
 import org.dm.entities.Entity;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class GameMap {
 
