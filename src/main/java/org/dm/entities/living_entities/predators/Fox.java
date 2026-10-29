@@ -1,6 +1,6 @@
 package org.dm.entities.living_entities.predators;
 
-import org.dm.view.EntityType;
+import org.dm.entities.living_entities.Creature;
 
 public class Fox extends Predator {
 
@@ -9,7 +9,7 @@ public class Fox extends Predator {
     }
 
     @Override
-    public EntityType getViewType() {
-        return EntityType.FOX;
+    protected Creature createOffspring() {
+        return new Fox(getSpeedPoint(), getMaxHealthPoint(), getPowerAttack());
     }
 }
