@@ -14,7 +14,7 @@ import org.dm.entities.static_entities.edible_objects.Grass;
 import org.dm.entities.static_entities.edible_objects.Mushroom;
 import org.dm.entities.static_entities.inedible_objects.Rock;
 import org.dm.entities.static_entities.inedible_objects.Tree;
-import org.dm.view.EntityType;
+import java.util.function.Supplier;
 
 public class EntitySpawnAction implements Action {
 
