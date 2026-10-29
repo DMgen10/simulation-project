@@ -6,9 +6,7 @@ import org.dm.entities.Entity;
 import org.dm.path_finder.PathFinder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.function.Predicate;
 
 public abstract class Creature extends Entity {
 
@@ -23,88 +21,120 @@ public abstract class Creature extends Entity {
     private final int maxHealthPoint;
     private int healthPoint;
     private int turnsWithoutFood = 0;
-    private int speedPoint;
-    private int healthPoint;
-    private static final Random random = new Random();
-    public Creature(int speedPoint, int healthPoint) {
+    private int turnsSinceReproduction = 0;
+
+    protected Creature(int speedPoint, int healthPoint) {
         this.speedPoint = speedPoint;
+        this.maxHealthPoint = healthPoint;
         this.healthPoint = healthPoint;
     }
 
-    public abstract void makeMove(GameMap map, PathFinder finder);
+    protected abstract boolean isTarget(Entity entity);
 
-    public Position findTarget(GameMap map, Predicate<Entity> condition){
-        Position currentPosition = map.getPosition(this);
+    protected abstract void interact(GameMap map, Position targetPosition);
 
-        if (currentPosition == null){
-            return null;
+    protected abstract Creature createOffspring();
+
+    protected abstract int getReproductionCooldown();
+
+    public final void makeMove(GameMap map, PathFinder finder) {
+        Position start = map.getPosition(this);
+        if (start == null) {
+            return;
         }
-        int minDistance = Integer.MAX_VALUE;
-        Position nearest = null;
-        for (Map.Entry<Position, Entity> entry : map.getEntities().entrySet()){
-            Entity entityTarget = entry.getValue();
-            Position positionTarget = entry.getKey();
-
-            if (entityTarget == this){
-                continue;
-            }
-
-            if (condition.test(entityTarget)){
-
-                int distance = Math.abs(currentPosition.x() - positionTarget.x()) + Math.abs(currentPosition.y() - positionTarget.y());
-                if (distance < minDistance){
-                    minDistance = distance;
-                    nearest = positionTarget;
-                }
-            }
-        }
-        return nearest;
-    }
-
-    public void moveRandomly(GameMap map){
-        Position currentPosition = map.getPosition(this);
-        if (currentPosition == null){
+        turnsSinceReproduction++;
+        if (sufferHunger(map)) {
             return;
         }
 
+        List<Position> path = finder.findPath(map, start, this::isTarget);
+        if (path.isEmpty()) {
+            moveRandomly(map, start);
+        } else if (path.size() == 1) {
+            interact(map, path.get(0));
+        } else {
+            walk(map, start, path);
+        }
+    }
+
+    public boolean canReproduce() {
+        return turnsSinceReproduction >= getReproductionCooldown()
+                && turnsWithoutFood <= WELL_FED_LIMIT
+                && healthPoint * 100 >= maxHealthPoint * MIN_HEALTH_PERCENT_FOR_REPRODUCTION
+                && healthPoint > reproductionCost();
+    }
+
+    public Creature reproduce() {
+        if (!canReproduce()) {
+            throw new IllegalStateException("The creature cannot reproduce now");
+        }
+        takeDamage(reproductionCost());
+        turnsSinceReproduction = 0;
+        return createOffspring();
+    }
+
+    private int reproductionCost() {
+        return Math.max(1, maxHealthPoint / REPRODUCTION_COST_DIVISOR);
+    }
+
+    private void walk(GameMap map, Position start, List<Position> path) {
+        int steps = Math.min(speedPoint, path.size() - 1);
+        Position current = start;
+        for (int i = 0; i < steps; i++) {
+            map.move(current, path.get(i));
+            current = path.get(i);
+        }
+    }
+
+    private void moveRandomly(GameMap map, Position start) {
         List<Position> freePositions = new ArrayList<>();
-        for (Position neighbour : map.getNeighbours(currentPosition)){
-            if (!map.isPositionBusy(neighbour)){
+        for (Position neighbour : map.getNeighbours(start)) {
+            if (!map.isPositionBusy(neighbour)) {
                 freePositions.add(neighbour);
             }
         }
-        if (freePositions.isEmpty()){
-            return;
+        if (!freePositions.isEmpty()) {
+            map.move(start, freePositions.get(RANDOM.nextInt(freePositions.size())));
         }
-        Position targetPosition = freePositions.get(random.nextInt(freePositions.size()));
-        map.move(currentPosition, targetPosition);
     }
 
-    protected void resetHunger(){
-        turnsWithoutFood = 0;
-    }
-
-    protected boolean sufferHunger(GameMap map){
+    private boolean sufferHunger(GameMap map) {
         turnsWithoutFood++;
-        if (turnsWithoutFood > hungerLimit){
-            healthPoint -= hungerDamage;
-            if (healthPoint <= 0){
-                Position position = map.getPosition(this);
-                if (position != null){
-                    map.remove(position);
-                }
-
+        if (turnsWithoutFood > HUNGER_LIMIT) {
+            takeDamage(HUNGER_DAMAGE);
+            if (isDead()) {
+                map.remove(map.getPosition(this));
                 return true;
             }
         }
         return false;
     }
 
+    protected void resetHunger() {
+        turnsWithoutFood = 0;
+    }
+
+    public void takeDamage(int damage) {
+        healthPoint -= damage;
+    }
+
+    public void heal(int amount) {
+        healthPoint = Math.min(maxHealthPoint, healthPoint + amount);
+    }
+
+    public boolean isDead() {
+        return healthPoint <= 0;
+    }
+
+    public int getSpeedPoint() {
+        return speedPoint;
+    }
+
     public int getHealthPoint() {
         return healthPoint;
     }
 
-    public void setHealthPoint(int healthPoint) {
-        this.healthPoint = healthPoint;
+    public int getMaxHealthPoint() {
+        return maxHealthPoint;
     }
 }
