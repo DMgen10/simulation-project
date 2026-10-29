@@ -12,8 +12,16 @@ import java.util.function.Predicate;
 
 public abstract class Creature extends Entity {
 
-    private static final int hungerLimit = 5;
-    private static final int hungerDamage = 1;
+    private static final int HUNGER_LIMIT = 5;
+    private static final int HUNGER_DAMAGE = 1;
+    private static final int WELL_FED_LIMIT = 3;
+    private static final int MIN_HEALTH_PERCENT_FOR_REPRODUCTION = 70;
+    private static final int REPRODUCTION_COST_DIVISOR = 3;
+    private static final Random RANDOM = new Random();
+
+    private final int speedPoint;
+    private final int maxHealthPoint;
+    private int healthPoint;
     private int turnsWithoutFood = 0;
     private int speedPoint;
     private int healthPoint;
