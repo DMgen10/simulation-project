@@ -1,5 +1,6 @@
 package org.dm.actions.init_actions;
 
+import org.dm.actions.Action;
 import org.dm.core.GameMap;
 import org.dm.core.GameSettings;
 import org.dm.core.Position;
