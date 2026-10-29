@@ -34,18 +34,8 @@ public class EntitySpawnAction implements Action {
         for (int i = 0; i < count && !map.isAllPositionsAreFilled(); i++) {
             map.add(map.getRandomPosition(), factory.get());
         }
-        return entity;
     }
-
-    private void spawnAllEntities(GameMap map, EntityType type, int countEntities, GameSettings settings){
-        int attempts = map.getHeightY() * map.getLengthX();
-
-        while (countEntities > 0 && attempts > 0){
-            spawnEntity(map, type, settings);
-            countEntities--;
-            attempts--;
-        }
-    }
+}
 
     private void spawnEntity(GameMap map, EntityType type, GameSettings settings){
         while (true){
