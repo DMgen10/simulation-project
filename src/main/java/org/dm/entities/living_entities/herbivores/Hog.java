@@ -1,5 +1,6 @@
 package org.dm.entities.living_entities.herbivores;
-import org.dm.view.EntityType;
+
+import org.dm.entities.living_entities.Creature;
 
 public class Hog extends Herbivore {
 
@@ -8,8 +9,7 @@ public class Hog extends Herbivore {
     }
 
     @Override
-    public EntityType getViewType() {
-        return EntityType.HOG;
+    protected Creature createOffspring() {
+        return new Hog(getSpeedPoint(), getMaxHealthPoint());
     }
-
 }
