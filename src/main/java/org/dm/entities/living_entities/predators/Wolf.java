@@ -1,6 +1,6 @@
 package org.dm.entities.living_entities.predators;
 
-import org.dm.view.EntityType;
+import org.dm.entities.living_entities.Creature;
 
 public class Wolf extends Predator {
 
@@ -9,7 +9,7 @@ public class Wolf extends Predator {
     }
 
     @Override
-    public EntityType getViewType() {
-        return EntityType.WOLF;
+    protected Creature createOffspring() {
+        return new Wolf(getSpeedPoint(), getMaxHealthPoint(), getPowerAttack());
     }
 }
