@@ -5,5 +5,5 @@ import org.dm.core.GameSettings;
 
 public interface Action {
 
-     void execute(GameMap map, GameSettings settings);
+    void execute(GameMap map, GameSettings settings);
 }
