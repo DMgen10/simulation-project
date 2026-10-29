@@ -3,8 +3,6 @@ package org.dm.actions.init_actions;
 import org.dm.actions.Action;
 import org.dm.core.GameMap;
 import org.dm.core.GameSettings;
-import org.dm.core.Position;
-import org.dm.actions.Action;
 import org.dm.entities.Entity;
 import org.dm.entities.living_entities.herbivores.Hog;
 import org.dm.entities.living_entities.herbivores.Rabbit;
@@ -34,16 +32,5 @@ public class EntitySpawnAction implements Action {
         for (int i = 0; i < count && !map.isAllPositionsAreFilled(); i++) {
             map.add(map.getRandomPosition(), factory.get());
         }
-    }
-}
-
-    private void spawnEntity(GameMap map, EntityType type, GameSettings settings){
-        while (true){
-            Position position = map.getRandomPosition();
-            if (!map.isPositionBusy(position)){
-                map.add(position, getEntity(type, settings));
-                break;
-                }
-            }
     }
 }
