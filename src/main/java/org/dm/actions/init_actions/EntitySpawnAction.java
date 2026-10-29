@@ -30,17 +30,9 @@ public class EntitySpawnAction implements Action {
         spawn(map, settings.getTotalTrees(), Tree::new);
     }
 
-    private Entity getEntity(EntityType type, GameSettings settings){
-        Entity entity = null;
-        switch (type){
-            case FOX -> entity = new Fox(settings.getSpeedPredators(), settings.getHealthPredators(), settings.getAttackPredators());
-            case WOLF -> entity = new Wolf(settings.getSpeedPredators(), settings.getHealthPredators(), settings.getAttackPredators());
-            case HOG -> entity = new Hog(settings.getSpeedHerbivores(), settings.getHealthHerbivores());
-            case RABBIT -> entity = new Rabbit(settings.getSpeedHerbivores(), settings.getHealthHerbivores());
-            case MUSHROOM -> entity = new Mushroom(settings.getEdibility());
-            case GRASS -> entity = new Grass(settings.getEdibility());
-            case ROCK -> entity = new Rock();
-            case TREE -> entity = new Tree();
+    private void spawn(GameMap map, int count, Supplier<Entity> factory) {
+        for (int i = 0; i < count && !map.isAllPositionsAreFilled(); i++) {
+            map.add(map.getRandomPosition(), factory.get());
         }
         return entity;
     }
