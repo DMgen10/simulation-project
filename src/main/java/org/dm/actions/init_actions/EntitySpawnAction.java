@@ -20,15 +20,15 @@ public class EntitySpawnAction implements Action {
 
     @Override
     public void execute(GameMap map, GameSettings settings) {
-        spawnAllEntities(map, EntityType.FOX, settings.getTotalFox(), settings);
-        spawnAllEntities(map, EntityType.WOLF, settings.getTotalWolf(), settings);
-        spawnAllEntities(map, EntityType.HOG, settings.getTotalHogs(), settings);
-        spawnAllEntities(map, EntityType.RABBIT, settings.getTotalRabbit(), settings);
-        spawnAllEntities(map, EntityType.MUSHROOM, settings.getTotalMushrooms(), settings);
-        spawnAllEntities(map, EntityType.GRASS, settings.getTotalGrass(), settings);
-        spawnAllEntities(map, EntityType.ROCK, settings.getTotalRocks(), settings);
-        spawnAllEntities(map, EntityType.TREE, settings.getTotalTrees(), settings);
-        }
+        spawn(map, settings.getTotalFox(), () -> new Fox(settings.getSpeedPredators(), settings.getHealthPredators(), settings.getAttackPredators()));
+        spawn(map, settings.getTotalWolf(), () -> new Wolf(settings.getSpeedPredators(), settings.getHealthPredators(), settings.getAttackPredators()));
+        spawn(map, settings.getTotalHogs(), () -> new Hog(settings.getSpeedHerbivores(), settings.getHealthHerbivores()));
+        spawn(map, settings.getTotalRabbit(), () -> new Rabbit(settings.getSpeedHerbivores(), settings.getHealthHerbivores()));
+        spawn(map, settings.getTotalMushrooms(), () -> new Mushroom(settings.getNutritionalValue()));
+        spawn(map, settings.getTotalGrass(), () -> new Grass(settings.getNutritionalValue()));
+        spawn(map, settings.getTotalRocks(), Rock::new);
+        spawn(map, settings.getTotalTrees(), Tree::new);
+    }
 
     private Entity getEntity(EntityType type, GameSettings settings){
         Entity entity = null;
